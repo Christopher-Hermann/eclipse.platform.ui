@@ -38,9 +38,12 @@ import org.eclipse.jface.text.source.IVerticalRuler;
 
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 
+import org.eclipse.ui.texteditor.stickyscroll.IStickyLinesProvider;
+import org.eclipse.ui.texteditor.stickyscroll.IStickyLinesProvider.StickyLinesProperties;
+
 /**
- * A sticky scrolling handler that retrieves stick lines from the {@link StickyLinesProvider} and
- * shows them in a {@link StickyScrollingControl} on top of the given source viewer.
+ * A sticky scrolling handler that retrieves stick lines from the {@link DefaultStickyLinesProvider}
+ * and shows them in a {@link StickyScrollingControl} on top of the given source viewer.
  */
 public class StickyScrollingHandler implements IViewportListener {
 
@@ -50,28 +53,28 @@ public class StickyScrollingHandler implements IViewportListener {
 
 	private StickyScrollingControl stickyScrollingControl;
 
-	private int tabWidth;
-
 	private IPropertyChangeListener propertyChangeListener;
 
 	private IPreferenceStore preferenceStore;
 
-	private StickyLinesProvider stickyLinesProvider;
+	private IStickyLinesProvider stickyLinesProvider;
 
 	private Throttler throttler;
 
 	private int verticalOffset;
 
+	private StickyLinesProperties stickyLinesProperties;
+
 	/**
 	 * Creates a StickyScrollingHandlerIndentation that will be linked to the given source viewer.
-	 * The sticky scrolling will be computed by the default {@link StickyLinesProvider}.
+	 * The sticky scrolling will be computed by the default {@link DefaultStickyLinesProvider}.
 	 * 
 	 * @param sourceViewer The source viewer to link the handler
 	 * @param verticalRuler The vertical ruler of the source viewer
 	 * @param preferenceStore The preference store
 	 */
 	public StickyScrollingHandler(ISourceViewer sourceViewer, IVerticalRuler verticalRuler, IPreferenceStore preferenceStore) {
-		this(sourceViewer, verticalRuler, preferenceStore, new StickyLinesProvider());
+		this(sourceViewer, verticalRuler, preferenceStore, new DefaultStickyLinesProvider());
 	}
 
 	/**
@@ -83,38 +86,38 @@ public class StickyScrollingHandler implements IViewportListener {
 	 * @param stickyLinesProvider The sticky scrolling computer
 	 */
 	public StickyScrollingHandler(ISourceViewer sourceViewer, IVerticalRuler verticalRuler, IPreferenceStore preferenceStore,
-			StickyLinesProvider stickyLinesProvider) {
+			IStickyLinesProvider stickyLinesProvider) {
 		this.sourceViewer= sourceViewer;
 
 		throttler= new Throttler(sourceViewer.getTextWidget().getDisplay(), Duration.ofMillis(THROTTLER_DELAY), this::calculateAndShowStickyLines);
 		this.stickyLinesProvider= stickyLinesProvider;
 
-		StickyScrollingControlSettings settings= loadAndListenForProperties(preferenceStore);
+		listenForPropertiesChanges(preferenceStore);
+		stickyLinesProperties= loadStickyLinesProperties(preferenceStore);
+		StickyScrollingControlSettings settings= loadControlSettings(preferenceStore);
+
 		stickyScrollingControl= new StickyScrollingControl(sourceViewer, verticalRuler, settings, this);
 
 		sourceViewer.addViewportListener(this);
 	}
 
-	private StickyScrollingControlSettings loadAndListenForProperties(IPreferenceStore store) {
+	private void listenForPropertiesChanges(IPreferenceStore store) {
 		preferenceStore= store;
 		propertyChangeListener= e -> {
 			if (e.getProperty().equals(EDITOR_TAB_WIDTH) || e.getProperty().equals(EDITOR_STICKY_SCROLLING_MAXIMUM_COUNT)
 					|| e.getProperty().equals(EDITOR_CURRENT_LINE_COLOR) || e.getProperty().equals(EDITOR_LINE_NUMBER_RULER)
 					|| e.getProperty().equals(STICKY_LINES_SEPARATOR_COLOR)) {
 				if (stickyScrollingControl != null && !sourceViewer.getTextWidget().isDisposed()) {
-					StickyScrollingControlSettings settings= loadSettings(preferenceStore);
+					StickyScrollingControlSettings settings= loadControlSettings(preferenceStore);
 					stickyScrollingControl.applySettings(settings);
-					stickyLinesProvider.setTabWidth(tabWidth);
+					stickyLinesProperties= loadStickyLinesProperties(preferenceStore);
 				}
 			}
 		};
 		store.addPropertyChangeListener(propertyChangeListener);
-		return loadSettings(store);
 	}
 
-	private StickyScrollingControlSettings loadSettings(IPreferenceStore store) {
-		tabWidth= store.getInt(EDITOR_TAB_WIDTH);
-
+	private StickyScrollingControlSettings loadControlSettings(IPreferenceStore store) {
 		int stickyScrollingMaxCount= store.getInt(EDITOR_STICKY_SCROLLING_MAXIMUM_COUNT);
 
 		Color lineNumberColor= new Color(PreferenceConverter.getColor(store, EDITOR_LINE_NUMBER_RULER_COLOR));
@@ -138,6 +141,11 @@ public class StickyScrollingHandler implements IViewportListener {
 				lineNumberColor, stickyLineHoverColor, stickyLineBackgroundColor, stickyLineSeparatorColor, showLineNumbers);
 	}
 
+	private StickyLinesProperties loadStickyLinesProperties(IPreferenceStore store) {
+		int tabWidth= store.getInt(EDITOR_TAB_WIDTH);
+		return new StickyLinesProperties(tabWidth);
+	}
+
 	@Override
 	public void viewportChanged(int newVerticalOffset) {
 		if (this.verticalOffset == newVerticalOffset) {
@@ -148,8 +156,10 @@ public class StickyScrollingHandler implements IViewportListener {
 	}
 
 	private void calculateAndShowStickyLines() {
-		List<StickyLine> stickyLines= stickyLinesProvider.get(verticalOffset, sourceViewer);
-		stickyScrollingControl.setStickyLines(stickyLines);
+		List<StickyLine> stickyLines= stickyLinesProvider.get(sourceViewer, stickyLinesProperties);
+		if (stickyLines != null) {
+			stickyScrollingControl.setStickyLines(stickyLines);
+		}
 	}
 
 	/**
