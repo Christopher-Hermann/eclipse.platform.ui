@@ -41,7 +41,7 @@ public interface IStickyLinesProvider {
 	 * @see ISourceViewer#getTextWidget()
 	 * @see StyledText#getTopIndex()
 	 */
-	public List<StickyLine> getStickyLines(StyledText textWidget, int lineNumber, StickyLinesProperties properties);
+	public List<IStickyLine> getStickyLines(StyledText textWidget, int lineNumber, StickyLinesProperties properties);
 
 	/**
 	 * Additional properties and access in order to calculate the sticky lines.
