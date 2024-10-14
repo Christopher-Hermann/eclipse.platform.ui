@@ -11,7 +11,7 @@
  * Contributors:
  *     SAP SE - initial API and implementation
  *******************************************************************************/
-package org.eclipse.ui.internal.texteditor.stickyscroll;
+package org.eclipse.ui.texteditor.stickyscroll;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
  * A sticky lines provider calculates the sticky lines for a given source viewer. The sticky lines
  * will be displayed in the top area of the editor.
  * 
- * TODO move to public package and add since 3.19
+ * since 3.19
  */
 public interface IStickyLinesProvider {
 
