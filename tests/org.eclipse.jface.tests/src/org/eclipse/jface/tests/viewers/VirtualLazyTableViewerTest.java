@@ -14,11 +14,11 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The VirtualLazyTableViewerTest is a test of table viewers with lazy
@@ -46,6 +47,7 @@ public class VirtualLazyTableViewerTest extends VirtualTableViewerTest {
 		return new TestLazyModelContentProvider(this);
 	}
 
+	@BeforeEach
 	@Override
 	public void setUp() {
 		updatedElements = new ArrayList<>();
@@ -58,7 +60,7 @@ public class VirtualLazyTableViewerTest extends VirtualTableViewerTest {
 		fModel = fRootElement.getModel();
 	}
 
-	@After
+	@AfterEach
 	@Override
 	public void tearDown() {
 		super.tearDown();
@@ -91,15 +93,15 @@ public class VirtualLazyTableViewerTest extends VirtualTableViewerTest {
 		// we are virtual, so not all indices we requested to select will be selected.
 		indices = table.getSelectionIndices();
 		selectionSize = indices.length;
-		assertTrue("Expected at least one selected element", selectionSize > 0);
+		assertTrue(selectionSize > 0, "Expected at least one selected element");
 
 		table.showSelection();
 
 		IStructuredSelection result = fViewer.getStructuredSelection();
 		assertEquals(selectionSize, result.size());
-		assertEquals("First elements do not match ", result.getFirstElement(), children[indices[0]]);
+		assertEquals(children[indices[0]], result.getFirstElement(), "First elements do not match ");
 		int lastIndex = indices[indices.length - 1];
-		assertEquals("Last elements do not match ", result.toArray()[result.size() - 1], children[lastIndex]);
+		assertEquals(children[lastIndex], result.toArray()[result.size() - 1], "Last elements do not match ");
 
 	}
 
@@ -112,8 +114,7 @@ public class VirtualLazyTableViewerTest extends VirtualTableViewerTest {
 		fViewer.setInput(fRootElement);
 
 		int materializedSize = updatedElements.size();
-		assertTrue("Expected less than " + fRootElement.getChildCount() + ", actual " + materializedSize,
-				materializedSize < fRootElement.getChildCount());
+		assertTrue(materializedSize < fRootElement.getChildCount(), "Expected less than " + fRootElement.getChildCount() + ", actual " + materializedSize);
 		// create a new model and check if we get an equal number of calls to
 		// updateElement
 		setUpModel();
@@ -129,37 +130,37 @@ public class VirtualLazyTableViewerTest extends VirtualTableViewerTest {
 		// materialize last child
 		fViewer.setSelection(new StructuredSelection(lastChild));
 		processEvents();
-		assertNotNull("last Child should be in the map", fViewer.testFindItem(lastChild));
+		assertNotNull(fViewer.testFindItem(lastChild), "last Child should be in the map");
 		((TableViewer) fViewer).setItemCount(childCount - 1);
-		assertNull("last Child should no longer be in the map", fViewer.testFindItem(lastChild));
+		assertNull(fViewer.testFindItem(lastChild), "last Child should no longer be in the map");
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testSorter() {
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testRenameWithSorter() {
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testSetFilters() {
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testFilter() {
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testRenameWithFilter() {
 	}
 
-	@Ignore("This test is no use here as it is based on the assumption that all items are created.")
+	@Disabled("This test is no use here as it is based on the assumption that all items are created.")
 	@Override
 	public void testContains() {
 	}

@@ -13,11 +13,11 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ICheckable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class StructuredItemViewerTest extends StructuredViewerTest {
 

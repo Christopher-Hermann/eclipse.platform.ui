@@ -13,9 +13,9 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.lang.reflect.Method;
 
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TreeViewerColumnTest extends AbstractTreeViewerTest {
 
@@ -131,7 +131,7 @@ public class TreeViewerColumnTest extends AbstractTreeViewerTest {
 		fViewer.refresh();
 		TestElement first = fRootElement.getFirstChild();
 		String newLabel = providedString(first);
-		assertEquals("rendered label", newLabel, getItemText(0));
+		assertEquals(newLabel, getItemText(0), "rendered label");
 		provider.fExtended = false;
 		// BUG 1FZ5SDC: JFUIF:WINNT - TableViewerColumn should listen for LabelProvider
 		// changes
@@ -150,7 +150,7 @@ public class TreeViewerColumnTest extends AbstractTreeViewerTest {
 		fViewer.refresh();
 		TestElement first = fRootElement.getFirstChild();
 		String newLabel = providedString(first);
-		assertEquals("rendered label", newLabel, getItemText(0));
+		assertEquals(newLabel, getItemText(0), "rendered label");
 		provider.fExtended = false;
 		// BUG 1FZ5SDC: JFUIF:WINNT - TableViewerColumn should listen for LabelProvider
 		// changes

@@ -14,32 +14,27 @@
  *******************************************************************************/
 package org.eclipse.core.filebuffers.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 
 import org.eclipse.core.resources.IProject;
 
@@ -78,7 +73,7 @@ public abstract class FileBufferFunctions {
 	protected abstract Class<IAnnotationModel> getAnnotationModelClass() throws Exception;
 
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		fManager= FileBuffers.getTextFileBufferManager();
 		fProject= ResourceHelper.createProject("project");
@@ -91,7 +86,7 @@ public abstract class FileBufferFunctions {
 		return fProject;
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		ITextFileBuffer buffer= fManager.getTextFileBuffer(fPath, LocationKind.NORMALIZE);
 		assertTrue(buffer == null);
@@ -102,27 +97,8 @@ public abstract class FileBufferFunctions {
 		return fPath;
 	}
 
-	@Rule
-	public TestFailReporter failReporter= new TestFailReporter();
-
-	public static class TestFailReporter extends TestWatcher {
-
-		private static final String BUNDLE_ID= "org.eclipse.core.filebuffers.tests";
-
-		ILog log= ILog.of(Platform.getBundle(BUNDLE_ID));
-
-		@Override
-		protected void failed(Throwable e, Description description) {
-			IStatus status= new Status(IStatus.ERROR, BUNDLE_ID, "FAIL in " + description, e);
-			log.log(status);
-		}
-
-		@Override
-		protected void succeeded(Description description) {
-			IStatus status= new Status(IStatus.INFO, BUNDLE_ID, "PASS in " + description);
-			log.log(status);
-		}
-	}
+	@RegisterExtension
+	public TestFailExtension failReporter= new TestFailExtension();
 
 	/*
 	 * Tests getLocation.

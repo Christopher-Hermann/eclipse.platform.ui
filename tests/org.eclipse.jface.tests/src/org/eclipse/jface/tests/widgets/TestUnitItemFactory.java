@@ -13,15 +13,15 @@
  ******************************************************************************/
 package org.eclipse.jface.tests.widgets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import org.eclipse.jface.widgets.TableColumnFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test uses a TableColumnFactory to test the methods of
@@ -32,7 +32,7 @@ public class TestUnitItemFactory extends AbstractFactoryTest {
 	private Table table;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		table = new Table(shell, SWT.NONE);

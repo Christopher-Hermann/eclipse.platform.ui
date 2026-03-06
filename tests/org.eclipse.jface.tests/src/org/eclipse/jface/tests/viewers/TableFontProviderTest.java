@@ -14,7 +14,7 @@
 
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.tests.viewers.TableViewerTest.TableTestLabelProvider;
@@ -33,8 +33,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * The TableFontProviderTest is a test suite designed to test
@@ -85,7 +85,7 @@ public class TableFontProviderTest extends StructuredViewerTest {
 
 	}
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() {
 		super.setUp();
@@ -138,9 +138,9 @@ public class TableFontProviderTest extends StructuredViewerTest {
 		FontData[] font1Data = font1.getFontData();
 		FontData[] font2Data = font2.getFontData();
 
-		assertEquals("Mismatched sizes", font1Data.length, font2Data.length);
+		assertEquals(font1Data.length, font2Data.length, "Mismatched sizes");
 		for (int a = 0; a < font2Data.length; a++) {
-			assertEquals("Mismatched fontData", font1Data[a], font2Data[a]);
+			assertEquals(font1Data[a], font2Data[a], "Mismatched fontData");
 		}
 
 	}

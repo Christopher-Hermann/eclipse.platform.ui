@@ -15,9 +15,9 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.tests.harness.util.DisplayHelper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests TreeViewer's VIRTUAL support with a lazy content provider.
@@ -108,7 +108,7 @@ public class SimpleVirtualLazyTreeViewerTest extends ViewerTestCase {
 	 */
 	protected boolean setDataCalled = false;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() {
 		super.setUp();
@@ -132,14 +132,13 @@ public class SimpleVirtualLazyTreeViewerTest extends ViewerTestCase {
 
 	@Test
 	public void testCreation() {
-		assumeFalse("disabled due to Bug 347491", disableTestsBug347491);
+		assumeFalse(disableTestsBug347491, "disabled due to Bug 347491");
 		
-		assertTrue("SWT.SetData not received", setDataCalled);
+		assertTrue(setDataCalled, "SWT.SetData not received");
 		processEvents();
-		assertTrue("tree should have items", getTreeViewer().getTree().getItemCount() > 0);
-		assertTrue("call to updateElement expected", updateElementCallCount > 0);
-		assertTrue("expected calls to updateElement for less than half of the items",
-				updateElementCallCount < NUM_ROOTS / 2);
+		assertTrue(getTreeViewer().getTree().getItemCount() > 0, "tree should have items");
+		assertTrue(updateElementCallCount > 0, "call to updateElement expected");
+		assertTrue(updateElementCallCount < NUM_ROOTS / 2, "expected calls to updateElement for less than half of the items");
 		assertEquals("R-0", getTreeViewer().getTree().getItem(0).getText());
 	}
 
@@ -192,10 +191,9 @@ public class SimpleVirtualLazyTreeViewerTest extends ViewerTestCase {
 	/* test TreeViewer.remove(parent, index) */
 	@Test
 	public void testRemoveAt() {
-		assumeFalse("disabled due to Bug 347491", disableTestsBug347491);
-		assertTrue("expected less than " + (NUM_ROOTS / 2) + " but got " + updateElementCallCount,
-				updateElementCallCount < NUM_ROOTS / 2);
-		assertTrue("SWT.SetData not received", setDataCalled);
+		assumeFalse(disableTestsBug347491, "disabled due to Bug 347491");
+		assertTrue(updateElementCallCount < NUM_ROOTS / 2, "expected less than " + (NUM_ROOTS / 2) + " but got " + updateElementCallCount);
+		assertTrue(setDataCalled, "SWT.SetData not received");
 		TreeViewer treeViewer = (TreeViewer) fViewer;
 		// correct what the content provider is answering with
 		treeViewer.getTree().update();

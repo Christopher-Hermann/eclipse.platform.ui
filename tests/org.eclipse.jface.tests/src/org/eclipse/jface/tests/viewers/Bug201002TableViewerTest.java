@@ -15,7 +15,7 @@
 
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -27,7 +27,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.tests.harness.util.DisplayHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 3.3
@@ -89,7 +89,7 @@ public class Bug201002TableViewerTest extends ViewerTestCase {
 		getTableViewer().editElement(getTableViewer().getElementAt(90), 0);
 		waitForTopIndexUpdate(false);
 		int topIndex = getTableViewer().getTable().getTopIndex();
-		assertNotEquals("TableViewer top index shouldn't be 0", 0, topIndex);
+		assertNotEquals(0, topIndex, "TableViewer top index shouldn't be 0");
 	}
 
 	private void waitForTopIndexUpdate(boolean isTopZero) {

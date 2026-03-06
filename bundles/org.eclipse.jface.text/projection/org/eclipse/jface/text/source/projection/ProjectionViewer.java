@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2025 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -767,6 +767,8 @@ public class ProjectionViewer extends SourceViewer implements ITextViewerExtensi
 		if (document == null) {
 			return;
 		}
+		int topIndex= redraws() ? getTopIndex() : -1;
+		setRedraw(false);
 		try {
 			// If the visible region changes, make sure collapsed regions outside of the old visible regions are expanded
 			// and collapse everything outside the new visible region
@@ -782,6 +784,8 @@ public class ProjectionViewer extends SourceViewer implements ITextViewerExtensi
 		} catch (BadLocationException e) {
 			ILog log= ILog.of(getClass());
 			log.log(new Status(IStatus.WARNING, getClass(), IStatus.OK, null, e));
+		} finally {
+			setRedraw(true, topIndex);
 		}
 	}
 
@@ -841,22 +845,21 @@ public class ProjectionViewer extends SourceViewer implements ITextViewerExtensi
 
 	private static int computeEndOfVisibleRegion(int start, int length, IDocument document) throws BadLocationException {
 		int documentLength= document.getLength();
-		int end= start + length + 1;
-		// ensure that trailing whitespace is included
-		// In this case, the line break needs to be included as well
-		boolean visibleRegionEndsWithTrailingWhitespace= end < documentLength && isWhitespaceButNotNewline(document.getChar(end - 1));
-		while (end < documentLength && isWhitespaceButNotNewline(document.getChar(end))) {
-			end++;
-			visibleRegionEndsWithTrailingWhitespace= true;
+		int end= start + length;
+		if (length == 0 || isLineBreak(document.getChar(end - 1))) {
+			return end + 1;
 		}
-		if (visibleRegionEndsWithTrailingWhitespace && end < documentLength && isLineBreak(document.getChar(end))) {
+		// ensure that the last line is fully included because projections cannot include partial lines
+		while (end < documentLength && !isLineBreak(document.getChar(end))) {
+			end++;
+		}
+		if (end < documentLength) {
+			end++;
+		}
+		if (end < documentLength && document.getChar(end) == '\n' && document.getChar(end - 1) == '\r') {
 			end++;
 		}
 		return end;
-	}
-
-	private static boolean isWhitespaceButNotNewline(char c) {
-		return Character.isWhitespace(c) && !isLineBreak(c);
 	}
 
 	private static boolean isLineBreak(char c) {

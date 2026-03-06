@@ -13,9 +13,9 @@
 ******************************************************************************/
 package org.eclipse.jface.tests.widgets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jface.widgets.TableColumnFactory;
 import org.eclipse.jface.widgets.WidgetFactory;
@@ -24,15 +24,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestUnitTableColumnFactory extends AbstractFactoryTest {
 
 	private Table table;
 
 	@Override
-	@Before
+	@BeforeEach
 	public void setup() {
 		super.setup();
 		table = WidgetFactory.table(SWT.NONE).create(shell);

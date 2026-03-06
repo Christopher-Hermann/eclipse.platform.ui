@@ -14,13 +14,13 @@
 
 package org.eclipse.jface.tests.labelProviders;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.resource.JFaceResources;
@@ -53,8 +53,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Most of the setup has been taken from
@@ -141,7 +141,7 @@ public class DecoratingStyledCellLabelProviderTest extends ViewerTestCase {
 	protected String changeMe = "OLD";
 	private static int COLUMN_COUNT = 3;
 
-	@Before
+	@BeforeEach
 	@Override
 	public void setUp() {
 		entries = new CountryEntry[3];

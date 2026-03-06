@@ -15,7 +15,7 @@
 
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -24,8 +24,8 @@ import org.eclipse.jface.viewers.TreeNode;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Description of the bug: Initially tree is populated by way shown below and is
@@ -89,16 +89,16 @@ public class Bug138608Test extends ViewerTestCase {
 		getTreeViewer().add(contentProvider.root.getChildren()[1],
 				contentProvider.root.getChildren()[1].getChildren()[1]);
 
-		assertEquals("expected two children of node b", 2, getTreeViewer().getTree().getItem(1).getItemCount());
+		assertEquals(2, getTreeViewer().getTree().getItem(1).getItemCount(), "expected two children of node b");
 
 		getTreeViewer().add(contentProvider.root.getChildren()[1],
 				contentProvider.root.getChildren()[1].getChildren()[1]);
 
-		assertEquals("expected two children of node b", 2, getTreeViewer().getTree().getItem(1).getItemCount());
+		assertEquals(2, getTreeViewer().getTree().getItem(1).getItemCount(), "expected two children of node b");
 
 	}
 
-	@After
+	@AfterEach
 	@Override
 	public void tearDown() {
 		contentProvider = null;

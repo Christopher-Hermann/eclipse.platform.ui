@@ -15,18 +15,19 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 
@@ -41,6 +42,7 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 		return fTreeViewer;
 	}
 
+	@BeforeEach
 	@Override
 	public void setUp() {
 		super.setUp();
@@ -76,67 +78,67 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 		assertTrue(fTreeViewer.isExpandable(nodeElement));
 	}
 
-	@Ignore("Test leads to infinite loop. Duplicate children are a bad idea in virtual trees.")
+	@Disabled("Test leads to infinite loop. Duplicate children are a bad idea in virtual trees.")
 	@Override
 	public void testRefreshWithDuplicateChild() {
 	}
 
-	@Ignore("Test leads to infinite loop. Cycles are a bad idea in virtual trees.")
+	@Disabled("Test leads to infinite loop. Cycles are a bad idea in virtual trees.")
 	@Override
 	public void testSetExpandedWithCycle() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testFilterExpanded() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testFilter() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testSetFilters() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testInsertSiblingWithFilterFiltered() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testInsertSiblingWithFilterNotFiltered() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support sorting")
+	@Disabled("no need to test since virtual trees do not support sorting")
 	@Override
 	public void testInsertSiblingWithSorter() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support filtering")
+	@Disabled("no need to test since virtual trees do not support filtering")
 	@Override
 	public void testRenameWithFilter() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support sorting")
+	@Disabled("no need to test since virtual trees do not support sorting")
 	@Override
 	public void testRenameWithSorter() {
 	}
 
-	@Ignore("no need to test since virtual trees do not support sorting")
+	@Disabled("no need to test since virtual trees do not support sorting")
 	@Override
 	public void testSorter() {
 	}
 
-	@Ignore("test is not relevant for lazy tree viewer")
+	@Disabled("test is not relevant for lazy tree viewer")
 	@Override
 	public void testChildIsNotDuplicatedWhenCompareEquals() {
 	}
 
-	@Ignore("test is not relevant for lazy tree viewer")
+	@Disabled("test is not relevant for lazy tree viewer")
 	@Override
 	public void testExpandCollapseToLevel() {
 	}
@@ -145,72 +147,72 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 	@Test
 	@Override
 	public void testRefreshWithAddedChildren() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testRefreshWithAddedChildren();
 	}
 
 	@Test
 	@Override
 	public void testDeleteSibling() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testDeleteSibling();
 	}
 
 	@Test
 	@Override
 	public void testInsertSibling() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testInsertSibling();
 	}
 
 	@Test
 	@Override
 	public void testInsertSiblings() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testInsertSiblings();
 	}
 
 	@Test
 	@Override
 	public void testSetInput() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testSetInput();
 	}
 
 	@Test
 	@Override
 	public void testSomeChildrenChanged() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testSomeChildrenChanged();
 	}
 
 	@Test
 	@Override
 	public void testWorldChanged() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testWorldChanged();
 	}
 
 	@Test
 	@Override
 	public void testContains() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testContains();
 	}
 
 	@Test
 	@Override
 	public void testAutoExpandOnSingleChildThroughEvent() {
-		assumeFalse("test disabled because of bug 347491", disableTestsBug347491);
-		assertTrue("data must have been set", setDataCalls > 0);
+		assumeFalse(disableTestsBug347491, "test disabled because of bug 347491");
+		assertTrue(setDataCalls > 0, "data must have been set");
 		super.testAutoExpandOnSingleChildThroughEvent();
 	}
 

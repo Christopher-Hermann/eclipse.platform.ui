@@ -14,7 +14,7 @@
 
 package org.eclipse.jface.tests.viewers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -27,7 +27,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 3.2
@@ -93,7 +93,7 @@ public class TableViewerComparatorTest extends ViewerComparatorTest {
 		TableItem[] items = getTableViewer().getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
 			TableItem item = items[i];
-			assertEquals("Item not expected.  actual=" + item.getText() + " expected=", expected[i], item.getText());
+			assertEquals(expected[i], item.getText(), "Item not expected.  actual=" + item.getText() + " expected=");
 		}
 	}
 
